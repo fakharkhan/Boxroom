@@ -1,0 +1,16 @@
+<% content_for :title, "System Settings" -%>
+
+<h1><%= content_for :title %></h1>
+<% if flash[:notice] -%>
+<p class="notice" id="notice">
+	<%= flash[:notice] %>
+</p>
+<% end -%>
+<% if flash[:alert] -%>
+<p class="error" id="alert">
+	<%= flash[:alert] %>
+</p>
+<% end -%>
+<%= form_for @setting, :url => update_settings_path do |f| %>
+	<%= render :partial => 'form', :locals => { :f => f } %>
+<% end %>

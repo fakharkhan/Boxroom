@@ -1,0 +1,6 @@
+<% content_for :title, t(:system_settings) -%>
+
+<h1><%= content_for :title %></h1>
+<%= form_for @setting do |f| %>
+	<%= render :partial => 'form', :locals => { :f => f } %>
+<% end %>

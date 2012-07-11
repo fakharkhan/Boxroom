@@ -1,0 +1,25 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<% if content_for? :title -%>
+	<title>Boxroom | <%= content_for :title %></title>
+<% else -%>
+	<title>Boxroom</title>
+<% end -%>
+	<%= stylesheet_link_tag 'application' %>
+	<%= javascript_include_tag 'application' %>
+	<%= csrf_meta_tag %>
+	<meta http-equiv="content-type" content="text/html;charset=UTF-8">
+	<%= content_for :head %>
+</head>
+<body>
+	<div id="container">
+		<%= render 'shared/header' %>
+		<%= render 'shared/menu' %>
+		<div id="content">
+			<%= yield %>
+		</div>
+		<%= render 'shared/footer' %>
+	</div>
+</body>
+</html>

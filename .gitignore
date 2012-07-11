@@ -1,0 +1,11 @@
+db/*.sqlite3
+log/*
+uploads/*
+tmp/*
+config/initializers/mailer.rb
+config/database.yml
+public/assets
+.idea/
+.rvmrc
+.bundle
+.sass-cache/

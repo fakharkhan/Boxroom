@@ -1,0 +1,67 @@
+<% content_for :title, t(:upload_file) -%>
+
+<%= content_for :head do %>
+    <%= javascript_include_tag 'plupload.full.js' %>
+    <%= javascript_include_tag 'jquery.plupload.queue.js' %>
+    <%= stylesheet_link_tag 'jquery.plupload.queue.css' %>
+    <script type="text/javascript">
+        var allSucceeded = true;
+        function uploadComplete() {
+            // redirect to the list of recently uploaded tracks
+            if (allSucceeded) {
+                window.location = '<%= folder_path(@target_folder) %>';
+            }
+        }
+        <% session_key_name = Rails.application.config.session_options[:key] %>
+        jQuery(document).ready(function() {
+            $("#uploader").pluploadQueue({
+                runtimes: 'html5,flash,silverlight',
+                url: '<%= upload_folder_files_path(@target_folder) %>',
+                multiple_queues: true,
+                multi_selection: true,
+                flash_swf_url: "<%= asset_path "plupload.flash.swf" %>",
+                silverlight_xap_url: "<%= asset_path "plupload.silverlight.xap" %>",
+                multipart: true,
+                multipart_params: {
+                    '_http_accept': 'application/javascript',
+                    'authenticity_token' : '<%= form_authenticity_token %>',
+                    '<%= session_key_name %>' : encodeURIComponent('<%= u cookies[session_key_name] %>')
+                },
+                init: {
+                    FileUploaded: function(up, file, info) {
+                        eval(info["response"]);
+                        // mysteriously this only works on Firefox?
+                        if (up.total.uploaded == up.files.length) {
+                            uploadComplete();
+                        }
+                    },
+                    StateChanged: function(up) {
+                        if (up.state == plupload.STARTED) {
+                            $("#upload_progress").empty();
+                            allSucceeded = true;
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+<% end %>
+<h1><%= content_for :title %></h1>
+<div id="uploader">
+<%= form_for [@target_folder, @file], :url => {:action => 'create'}, :html => {:multipart => true} do |f| %>
+    <%= f.error_messages %>
+    <p>
+      <%= f.label t(:select_file) %>:<br>
+      <%= f.file_field :attachment %>
+    </p>
+    <p>
+      <%= f.submit t(:upload) %> &nbsp; &mdash; &nbsp;
+      <%= link_to t(:back), folder_url(@target_folder) %>
+    </p>
+<% end %>
+</div>
+<div id="upload_progress">
+</div>
+
+
+

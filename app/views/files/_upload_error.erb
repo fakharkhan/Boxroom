@@ -1,0 +1,6 @@
+<div class="upload_error">
+  <%= t(:upload_error, :file => @file.attachment_file_name) %>
+  <% @file.errors.full_messages.each do |message| %>
+    <p><%= message %></p>
+  <% end %>
+</div>

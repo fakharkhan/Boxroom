@@ -1,0 +1,13 @@
+<%= f.error_messages %>
+<h2><%= t :amazon_s3 %>:</h2>
+<p>
+	<%= f.label :s3_access_key_id %>:<br>
+	<%= f.text_field :s3_access_key_id, { :autocomplete => 'off', :class => 'text_input_wide' } %>
+</p>
+<p>
+	<%= f.label :s3_secret_access_key %>:<br>
+	<%= f.text_field :s3_secret_access_key, { :autocomplete => 'off', :class => 'text_input_wide' } %>
+</p>
+<p>
+	<%= f.submit t(:save) %>
+</p>
